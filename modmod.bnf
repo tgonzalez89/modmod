@@ -1,0 +1,142 @@
+<system_decl> ::= <ows> (<system_item> <ows>)*
+<system_item> ::= <namespace_decl>
+                | <module_decl>
+                | <include>
+
+<include> ::= "#include" <ws> <letter>+
+
+<namespace_decl> ::= "namespace" <ws> <base_id> <ows>
+                     "{" <ows> (<namespace_item> <ows>)* "}"
+<namespace_item> ::= <struct_decl>
+                   | <enum_decl>
+                   | <func_decl>
+                   | <procedure_decl>
+                   | <module_decl>
+
+<module_decl> ::= "module" <ws> <base_id> <ows>
+                  "{" <ows> (<module_item> <ows>)* "}"
+<module_item> ::= <namespace_item>
+                | <state_var_decl>
+                | <process_decl>
+                | <assign_decl>
+                | <module_inst>
+
+<struct_decl> ::= "struct" <ws> <base_id> <ows>
+                  "{" <ows> <struct_field_decl_seq> "}"
+<struct_field_decl_seq> ::= E | <struct_field_decl> | <struct_field_decl> <ows> "," <ows> <struct_field_decl_seq>
+<struct_field_decl> ::= <type_id> <ws> <base_id>
+
+<enum_decl> ::= "enum" <ws> <base_id> <ows>
+                "{" <ows> <enum_tag_decl_seq> "}"
+<enum_tag_decl_seq> ::= E | <enum_tag_decl> | <enum_tag_decl> <ows> "," <ows> <enum_tag_decl_seq>
+<enum_tag_decl> ::= (<type_id> <ws>)? <base_id>
+
+<func_decl> ::= "func" <ws> <type_id> <ws> <base_id> <ows>
+                "(" <ows> (<arg_decl_seq> <ows>)? ")" <ows> "=" <ows> <expression>
+<arg_decl_seq> ::= <arg_decl> | <arg_decl> <ows> "," <ows> <arg_decl_seq>
+<arg_decl> ::= <type_id> <ws> <base_id>
+
+<procedure_decl> ::= "procedure" <ws> <base_id> <ows>
+                     "(" <ows> (<arg_decl_seq> <ows>)? ")" <ows> <statement>
+
+<state_var_decl> ::= <state_var_kind> <ws> <type_id> <ws> <base_id> <ows>
+                    ("=" <ows> <expression> <ows>)? ";"
+<state_var_kind> ::= "inwire" | "outwire" | "outreg" | "wire" | "reg" | "const"
+
+<process_decl> ::= "process" <ws> <base_id> <ws> <statement>
+
+<assign_decl> ::= "assign" <ows> "{" <ows> (<assign_stmt> <ows>)* "}"
+
+<module_inst> ::= <namespace_id> <ws> <base_id> <ows>
+                  "(" <ows> (<module_inst_assign_seq> <ows>)? ")" <ows> ";"
+<module_inst_assign_seq> ::= <module_inst_assign> | <module_inst_assign> <ows> "," <ows> <module_inst_assign_seq>
+<module_inst_assign> ::= <base_id> <ows> "=" <ows> <expression>
+
+<statement> ::= <non_block_stmt> | <block_stmt>
+<non_block_stmt> ::= <if_stmt>
+                   | <while_stmt>
+                   | <assign_stmt>
+                   | <wait_stmt>
+                   | <assert_stmt>
+                   | <atomic_stmt>
+                   | <match_stmt>
+                   | <break_stmt>
+                   | <continue_stmt>
+                   | <return_stmt>
+                   | <end_stmt>
+                   | <procedure_call_stmt>
+                   | <wait_atomic_stmt>
+<block_stmt> ::= "{" <statement>* "}"
+<statement_after_word> ::= <ws> <non_block_stmt> | <ows> <block_stmt>
+<stmt_after_w> ::= <statement_after_word>
+<if_stmt> ::= "if" <ws> <expression> <ows> ":" <ows> <statement>
+              ("else" <ows> ":" <ows> <statement>)?
+<while_stmt> ::= "while" <ws> <expression> <ows> ":" <ows> <statement>
+<assign_stmt> ::= <composed_id> <ows> "=" <ows> <expression> <ows> ";"
+<atomic_stmt> ::= "atomic" <stmt_after_w>
+<match_stmt> ::= "match" <ws> <expression> <ows>
+                 "{" <ows> ("case" <ws> <expression> <ows> ":" <ows> <statement> <ows>)*
+                           ("other" <ows> ":" <ows> <statement> <ows>)?
+                 "}"
+<break_stmt> ::= "break" <ows> ";"
+<continue_stmt> ::= "continue" <ows> ";"
+<return_stmt> ::= "return" <ows> ";"
+<end_stmt> ::= "end" <ows> ";"
+<procedure_call_stmt> ::= <namespace_id> <ows>
+                          "(" <ows> (<procedure_call_arg_seq> <ows>)? ")" <ows> ";"
+<procedure_call_arg_seq> ::= <composed_id> | <composed_id> <ows> "," <ows> <procedure_call_arg_seq>
+<wait_atomic_stmt> ::= "wait" <ws> <expression> <ws> "atomic" <stmt_after_w>
+<wait_stmt> ::= "wait" <ws> <expression> <ows> ";"
+<assert_stmt> ::= "assert" <ws> <expression> <ows> ";"
+
+<expression> ::= <unary_op_expr>
+               | <binary_op_expr>
+               | <paren_expr>
+               | <func_call_expr>
+               | <if_expr>
+               | <match_expr>
+               | <struct_expr>
+               | <enum_val_expr>
+               | <enum_bind_expr>
+               | <id_expr>
+               | <literal_expr>
+<unary_op_expr> ::= <unary_op> <ows> <expression>
+<binary_op_expr> ::= <expression> <ows> <binary_op> <ows> <expression>
+<paren_expr> ::= "(" <ows> <expression> <ows> ")"
+<func_call_expr> ::= "dummy"
+<if_expr> ::= "dummy"
+<match_expr> ::= "dummy"
+<struct_expr> ::= <type_id> <ows> "{" "dummy" "}"
+<enum_val_expr> ::= <tag_id> (<ows> "#" <ows> <expression>)?
+<enum_bind_expr> ::= <tag_id> <ows> "@" <ows> <base_id>
+<id_expr> ::= <composed_id>
+<literal_expr> ::= <int_val> | <bool_val>
+
+<unary_op> ::= "!" | "~"
+<binary_op> ::= "*"  | "/"  | "%"
+              | "+"  | "-"
+              | ">>" | "<<"
+              | ">"  | ">=" | "<" | "<="
+              | "==" | "!="
+              | "&"  | "^"  | "|"
+              | "&&" | "||"
+
+<int_val> ::= "-"? <digit>*
+<bool_val> ::= "true" | "false"
+
+<type_id> ::= <namespace_id> | "bool" | "int"
+<composed_id> ::= (<base_id> ".")* <base_id>
+<namespace_id> ::= (<base_id> "::")* <base_id>
+<tag_id> ::= (<base_id> "::")+ <base_id>
+<base_id> ::= (<letter> | "_") (<letter> | <digit> | "_")*
+
+<letter> ::= [A-Z] | [a-z]
+<digit> ::= [0-9]
+
+<ows> ::= <optional_whitespaces>
+<ws> ::= <whitespaces>
+<optional_whitespaces> ::= <whitespace>*
+<whitespaces> ::= <whitespace>+
+<whitespace> ::= " " | "\t" | "\n"
+
+# FIX: expressions that don't need whitespace before/after: if/while/match/wait_atomic/wait/assert, exprs: if/match

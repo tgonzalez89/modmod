@@ -1,0 +1,131 @@
+{
+  "obj": "SystemAST",
+  "attrs": {
+    "items": [
+      {
+        "obj": "NamespaceDecl",
+        "attrs": {
+          "name": "N",
+          "items": [
+            {
+              "obj": "StructDecl",
+              "attrs": {
+                "name": "S",
+                "fields": [
+                  {
+                    "type": {
+                      "obj": "BaseId",
+                      "attrs": {
+                        "name": "int"
+                      },
+                      "src": {
+                        "line": 3,
+                        "col": 5
+                      }
+                    },
+                    "name": "field1"
+                  },
+                  {
+                    "type": {
+                      "obj": "BaseId",
+                      "attrs": {
+                        "name": "bool"
+                      },
+                      "src": {
+                        "line": 4,
+                        "col": 5
+                      }
+                    },
+                    "name": "field2"
+                  }
+                ]
+              },
+              "src": {
+                "line": 2,
+                "col": 3
+              }
+            }
+          ]
+        },
+        "src": {
+          "line": 1,
+          "col": 1
+        }
+      },
+      {
+        "obj": "ModuleDecl",
+        "attrs": {
+          "name": "M",
+          "items": [
+            {
+              "obj": "ProcessDecl",
+              "attrs": {
+                "name": "p",
+                "body": {
+                  "obj": "BlockStmt",
+                  "attrs": {
+                    "stmts": [
+                      {
+                        "obj": "AssertStmt",
+                        "attrs": {
+                          "expr": {
+                            "obj": "BinaryOpExpr",
+                            "attrs": {
+                              "lhs": {
+                                "obj": "LiteralExpr",
+                                "attrs": {
+                                  "val": "1",
+                                  "type": "int"
+                                },
+                                "src": {
+                                  "line": 10,
+                                  "col": 12
+                                }
+                              },
+                              "op": "EqualsOp",
+                              "rhs": {
+                                "obj": "LiteralExpr",
+                                "attrs": {
+                                  "val": "1",
+                                  "type": "int"
+                                },
+                                "src": {
+                                  "line": 10,
+                                  "col": 17
+                                }
+                              }
+                            },
+                            "src": {
+                              "line": 10,
+                              "col": 12
+                            }
+                          }
+                        },
+                        "src": {
+                          "line": 10,
+                          "col": 5
+                        }
+                      }
+                    ]
+                  },
+                  "src": {
+                    "line": 9,
+                    "col": 13
+                  }
+                }
+              },
+              "src": {
+                "line": 9,
+                "col": 3
+              }
+            }
+          ]
+        },
+        "src": {
+          "line": 8,
+          "col": 1
+        }
+      }
+    ]
+  }
+}

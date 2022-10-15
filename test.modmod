@@ -1,0 +1,12 @@
+namespace N {
+  struct S {
+    int field1,
+    bool field2,
+  }
+}
+
+module M {
+  process p {
+    assert 1 == 1;
+  }
+}

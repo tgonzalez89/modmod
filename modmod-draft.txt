@@ -1,0 +1,89 @@
+enum reset {DEASSERTED, ASSERTED}
+
+module <name> {
+    inwire <type> <name> default=<?default_value>;
+    outwire <type> <name> default=<?default_value>;
+    outreg <type> <name> init=<?initial_value>;
+    wire <type> <name> default=<?default_value>;
+    reg <type> <name> init=<?initial_value>;
+    const <type> <name> default=<?default_value>;
+
+    procedure <name>(<type> <arg>, ...) {
+        // Statements...;
+    }
+
+    process <name> {
+        // Statements...;
+    }
+
+    assign {
+        <wire_name> = <expression>;
+    }
+
+    <module_class_name> <module_instance_name>(<const_name>=<value>,);
+
+    /*connect {
+        <module_instance_name>.<port_name> -> {<module_instance_name>.<port_name>,};
+        <module_instance_name>.<port_name> -> <module_instance_name>.<port_name>;
+    }*/
+}
+
+namespace <name> {
+    struct <name> {
+        <type> <name> = <?initial_value>,
+    }
+    enum {
+        <tag>,
+    }
+    variant {
+        <type> <tag>,
+    }
+
+    func <return_type> <name>(<type> <arg>, ...) = <expression>;
+
+    procedure <name>(<type> <arg>, ...) {
+        // Statements...;
+    }
+
+    module <name> {...}
+}
+
+/*
+If a resource without a default value is found it is an error.
+Default values for wires are there only for convenience.
+*/
+
+/*
+Statements:
+if <expression> <statement> ?else <statement>
+while <expression> <statement>
+{} //block
+<reg_name> = <expression>;
+wait <expression>;
+assert <expression>;
+atomic <statement>
+match <expression> {<expression>: <statement> ?other: <statement>}
+break;
+continue;
+return; //only valid inside a procedure
+end; //only valid inside a proces??? maybe not.
+<procedure_name>(<arg_name>,...);
+wait <expression> atomic <statement>
+*/
+
+/*
+Expressions:
+unary op ! ~
+binary op + - * / % > < <= >= == != << >> ^ | & && ||
+function_call <func_name>(<arg>,...)
+if <expression> <expression> ?else <expression>
+match <expression> {<expression>: <expression> ?other: <expression>}
+sum expr: <tag>#<value>, <tag>, <tag>@<bind>
+struct expr: <struct_name>{<field>:<value>,}
+id expr: foo.bar, namespace::namespace::enum::tag, agent.struct.field.field
+*/
+
+
+//TODO: reset????, dependency????
+// Friend? like peer, private/public
+ | "u8" | "i8" | "u16" | "i16" | "u32" | "i32" | "u64" | "i64" | "f32" | "f64"
